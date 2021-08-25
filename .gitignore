@@ -4,3 +4,6 @@
 .envrc
 .direnv
 default.nix
+
+# Python cache
+/**/__pycache__
