@@ -1,0 +1,9 @@
+certifi==2021.5.30
+charset-normalizer==2.0.4
+idna==3.2
+requests==2.26.0
+schedule==1.1.0
+six==1.16.0
+stdiomask==0.0.6
+urllib3==1.26.6
+vk-api==11.9.4
