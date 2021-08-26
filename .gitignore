@@ -1,3 +1,10 @@
 *venv
 *idea
 
+.envrc
+.direnv
+default.nix
+
+# Python cache
+/**/__pycache__
+/vk_config.v2.json
