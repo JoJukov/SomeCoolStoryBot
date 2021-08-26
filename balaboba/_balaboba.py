@@ -95,8 +95,10 @@ class Balaboba:
         ---------------
         `query` : `str`
             Initial text
-        `style` : `Style`
+        `style` : `Style`, optional
             Style acuired from ~getStyles~ method
+        `filter` : `int`, optional
+            Some unknown parameter
 
         Returns
         ----------------
