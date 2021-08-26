@@ -10,15 +10,16 @@ DISCLAIMER = '''
 перестараться или, наоборот, что-то пропустить.
 '''
 
-class BalabobaRequestFailedException(Exception):
 
+class BalabobaRequestFailedException(Exception):
     def __init__(self, message) -> None:
         super().__init__(f'Failed to get generated text: {message}')
 
-class BalabobaInvalidQueryException(Exception):
 
+class BalabobaInvalidQueryException(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(DISCLAIMER, *args)
+
 
 class Style:
     '''
@@ -31,7 +32,6 @@ class Style:
     `description` : `str`
         Long description of style option
     '''
-
     def __init__(self, _id, name, description):
         self._id = _id
         self.name = name
@@ -40,7 +40,9 @@ class Style:
     def __str__(self):
         return self.name
 
+
 NO_STYLE = Style(0, '', '')
+
 
 class Balaboba:
     '''
@@ -52,7 +54,7 @@ class Balaboba:
        Fetching styles
     '''
 
-    API_URL   = "https://yandex.ru/lab/api/yalm"
+    API_URL = "https://yandex.ru/lab/api/yalm"
     STYLE_URL = "intros"
     QUERY_URL = "text3"
 
@@ -84,11 +86,12 @@ class Balaboba:
 
         for intro in intros:
             if len(intro) < 3:
-                raise BalabobaRequestFailedException("Some styles contas too few parameters")
+                raise BalabobaRequestFailedException(
+                    "Some styles contas too few parameters")
 
         return self._processIntros(intros)
 
-    def generate(self, query, style = NO_STYLE, filter = 1):
+    def generate(self, query, style=NO_STYLE, filter=1):
         '''Abusing *Balaboba* to generate text.
 
         Parameters
@@ -134,21 +137,28 @@ class Balaboba:
 
     def _checkedRequest(self, method, checkFields, url, *args, **kwargs):
         try:
-            response = requests.request(url=url, method=method, *args, **kwargs);
+            response = requests.request(url=url,
+                                        method=method,
+                                        *args,
+                                        **kwargs)
         except:
-            raise BalabobaRequestFailedException(f'Request to "{self._queryUrl()}" failed')
+            raise BalabobaRequestFailedException(
+                f'Request to "{self._queryUrl()}" failed')
 
         try:
             jsonResponse = response.json()
         except:
-            raise BalabobaRequestFailedException(f'Failed to parse to json: "{response.text}"')
+            raise BalabobaRequestFailedException(
+                f'Failed to parse to json: "{response.text}"')
 
         for field in checkFields:
             if jsonResponse.get(field) == None:
-                raise BalabobaRequestFailedException(f'No "{field}" value in response')
+                raise BalabobaRequestFailedException(
+                    f'No "{field}" value in response')
 
         if jsonResponse["error"] == 1:
-            raise BalabobaRequestFailedException("Balaboba failed to process request")
+            raise BalabobaRequestFailedException(
+                "Balaboba failed to process request")
 
         return jsonResponse
 
@@ -181,6 +191,6 @@ class Balaboba:
 
     def _styleUrl(self):
         return self._methodUrl(self.STYLE_URL)
-    
+
     def _queryUrl(self):
         return self._methodUrl(self.QUERY_URL)

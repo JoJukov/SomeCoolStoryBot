@@ -1,7 +1,7 @@
 import vk_api
 
-class VkPoster:
 
+class VkPoster:
     def __init__(self, auth, group_id):
         '''
 
@@ -42,15 +42,15 @@ class VkPoster:
         '''
 
         self._vk.wall.post(
-            owner_id = -self._group_id,
+            owner_id=-self._group_id,
             message=message,
             attachments=self._uploadPhoto(photo),
-            from_group = 1,
+            from_group=1,
         )
 
-
     def _uploadPhoto(self, photo):
-        resp = vk_api.upload.VkUpload(self._vk).photo_wall(photo, group_id=self._group_id)[0]
+        resp = vk_api.upload.VkUpload(self._vk).photo_wall(
+            photo, group_id=self._group_id)[0]
 
         # TODO: len(resp) == 0
 
