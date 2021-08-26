@@ -1,5 +1,5 @@
 import random
-from .PhrasesTemplates import *
+from .phrasesTemplates import *
 
 
 class _RandomPhraseSupplierMeta(type):
