@@ -1,8 +1,8 @@
 import stdiomask
 import os
 
-class VkAuth:
 
+class VkAuth:
     @staticmethod
     def fromPrompt():
         '''
