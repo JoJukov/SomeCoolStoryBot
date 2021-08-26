@@ -1,2 +1,2 @@
-from .BeginningOfTheStoryPhrase import BeginningOfTheStoryPhraseEnum
-from .WelcomePhrase import WelcomePhraseEnum
+from ._beginningOfTheStoryPhrase import BeginningOfTheStoryPhraseEnum
+from ._welcomePhrase import WelcomePhraseEnum

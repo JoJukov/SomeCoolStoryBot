@@ -1,1 +1,1 @@
-from .RandomPhraseSupplier import RandomPhraseSupplier
+from ._randomPhraseSupplier import RandomPhraseSupplier
