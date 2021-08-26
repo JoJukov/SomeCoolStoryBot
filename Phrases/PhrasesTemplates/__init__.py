@@ -1,0 +1,2 @@
+from .BeginningOfTheStoryPhrase import BeginningOfTheStoryPhraseEnum
+from .WelcomePhrase import WelcomePhraseEnum
