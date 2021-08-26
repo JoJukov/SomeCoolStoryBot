@@ -10,8 +10,6 @@ DISCLAIMER = '''
 перестараться или, наоборот, что-то пропустить.
 '''
 
-NO_STYLE = 1
-
 class BalabobaRequestFailedException(Exception):
 
     def __init__(self, message) -> None:
@@ -41,6 +39,8 @@ class Style:
 
     def __str__(self):
         return self.name
+
+NO_STYLE = Style(0, '', '')
 
 class Balaboba:
     '''
@@ -88,7 +88,7 @@ class Balaboba:
 
         return self._processIntros(intros)
 
-    def generate(self, query, style = NO_STYLE):
+    def generate(self, query, style = NO_STYLE, filter = 1):
         '''Abusing *Balaboba* to generate text.
 
         Parameters
@@ -107,7 +107,7 @@ class Balaboba:
         `BalabobaRequestFailedException`
             When face an error getting or parsing response
         `BalabobaInvalidQueryException`
-            Read DISLAIMER
+            Read DISCLAIMER
         '''
 
         jsonResponse = self._checkedPost(
@@ -116,7 +116,7 @@ class Balaboba:
                 "text",
             ],
             self._queryUrl(),
-            json=self._createQueryJsonRequest(query, style),
+            json=self._createQueryJsonRequest(query, style, filter),
         )
 
         if jsonResponse["bad_query"] == 1:
@@ -124,9 +124,15 @@ class Balaboba:
 
         return self._jsonResponseToText(jsonResponse)
 
+    def _checkedPost(self, *args, **kwargs):
+        return self._checkedRequest("POST", *args, **kwargs)
+
+    def _checkedGet(self, *args, **kwargs):
+        return self._checkedRequest("GET", *args, **kwargs)
+
     def _checkedRequest(self, method, checkFields, url, *args, **kwargs):
         try:
-            response = method(url, *args, **kwargs);
+            response = requests.request(url=url, method=method, *args, **kwargs);
         except:
             raise BalabobaRequestFailedException(f'Request to "{self._queryUrl()}" failed')
 
@@ -144,17 +150,11 @@ class Balaboba:
 
         return jsonResponse
 
-    def _checkedPost(self, *args, **kwargs):
-        return self._checkedRequest(requests.post, *args, **kwargs)
-
-    def _checkedGet(self, *args, **kwargs):
-        return self._checkedRequest(requests.get, *args, **kwargs)
-
-    def _createQueryJsonRequest(self, query, style):
+    def _createQueryJsonRequest(self, query, style, filter):
         return {
             "query": query,
             "intro": style._id,
-            "filter": 0,
+            "filter": filter,
         }
 
     def _jsonResponseToText(self, response):
