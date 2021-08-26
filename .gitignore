@@ -6,5 +6,8 @@
 default.nix
 
 # Python cache
-/**/__pycache__
+__pycache__
 /vk_config.v2.json
+
+# Temp files
+\#*\#
